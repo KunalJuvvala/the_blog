@@ -29,9 +29,7 @@ public class Service {
 
     if (account1 != null) {
       return null;
-    }
-
-    else {
+    } else {
       Account account = new Account();
       account.setEmail(acc.getEmail());
       account.setPassword(acc.getPassword());
@@ -82,28 +80,12 @@ public class Service {
   }
 
   public Blog insertBlog(Blog blog) {
-
-    Blog bl = new Blog();
-    int id;
-    id = blogDao.getLastId();
-    if(id == -1){
-      blog.setBlogId(1);
-    }
-    else{
-      blog.setBlogId(id + 1);
-    }
-    bl = blogDao.insertBlog(blog);
-    if(bl == null) {
-      return null;
-    }
-    else{
-      return bl;
-    }
+    Blog bl = blogDao.insertBlog(blog);
+    return bl;
   }
 
   // Removed 'static'
-  public ArrayList<Blog> viewBlogsbyEmail(String email)
-  {
+  public ArrayList<Blog> viewBlogsbyEmail(String email) {
     ArrayList<Blog> blogs = new ArrayList<>();
     ArrayList<Blog> bloggerBlogs = blogDao.getBlogsByEmail(email);
     blogs.addAll(bloggerBlogs);
@@ -120,8 +102,17 @@ public class Service {
 
   // Removed 'static'
   public int isFriends(String loginemail, String bloggerEmailAddress) {
-    int flag=0;
-    flag=bloggerDao.checkfriends(loginemail, bloggerEmailAddress);
+    int flag = 0;
+    flag = bloggerDao.checkfriends(loginemail, bloggerEmailAddress);
     return flag;
   }
+
+  public boolean updateBlog(Blog blog) {
+    return blogDao.updateBlog(blog);
+  }
+
+  public boolean deleteBlog(int id) {
+    return blogDao.deleteBlog(id);
+  }
+
 }
