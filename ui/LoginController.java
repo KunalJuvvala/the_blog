@@ -1,5 +1,6 @@
 package com.ourblogs.ui;
 
+import com.ourblogs.ui.view.DeleteBlogController;
 import java.sql.SQLException;
 import java.util.Scanner;
 
@@ -14,7 +15,9 @@ import com.ourblogs.ui.view.insertedBlogview;
 public class LoginController {
    FrontController frontController;
    Scanner scanner;
-   public static int EXIT = 5;
+   public static int EXIT = 7;
+   public static int EDIT = 5;
+   public static int DELETE = 6;
    public static int POST = 1;
    public static int VIEW = 2;
    public static int ADDRDR = 3;
@@ -61,6 +64,16 @@ public class LoginController {
                    ReadBlogController controller1 = new ReadBlogController(this, service, scanner, login);
                    controller1.begin();
                 }
+               else if(choice1 == EDIT) {
+                 EditBlogController controller1 = new EditBlogController(service, scanner, login);
+                 String msg = controller1.beginEditBlog();
+                 insertedBlogview.dispmsg(msg);
+               }
+               else if(choice1 == DELETE) {
+                 DeleteBlogController controller1 = new DeleteBlogController(service, scanner);
+                 String msg = controller1.begin();
+                 insertedBlogview.dispmsg(msg);
+               }
                LoginSecondView.displayBlogMenu(message);
                choice1 = MenuView.getUserChoice(scanner);	
             }
