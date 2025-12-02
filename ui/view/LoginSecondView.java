@@ -14,8 +14,11 @@ public class LoginSecondView {
 	}
 	
 	public static int getUserChoice(Scanner scanner) {
-		int choice = Integer.parseInt(scanner.nextLine());
-		return choice;
+      try {
+        return Integer.parseInt(scanner.nextLine());
+      } catch (NumberFormatException e) {
+        return -1;
+      }
 	}
 }
 
