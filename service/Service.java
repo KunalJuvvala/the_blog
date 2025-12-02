@@ -1,7 +1,10 @@
 package com.ourblogs.service;
 
+import com.ourblogs.entity.Comment;
+import com.ourblogs.entity.Rating;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import com.ourblogs.service.InteractionDao;
 
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
@@ -15,12 +18,14 @@ public class Service {
   private final AccountDao accountDao;
   private final BloggerDao bloggerDao;
   private final BlogDao blogDao;
+  private final InteractionDao interactionDao;
 
   // Constructor uses instance fields
-  public Service(AccountDao accountDao, BloggerDao bloggerDao, BlogDao blogDao) {
+  public Service(AccountDao accountDao, BloggerDao bloggerDao, BlogDao blogDao, InteractionDao interactionDao) {
     this.accountDao = accountDao;
     this.bloggerDao = bloggerDao;
     this.blogDao = blogDao;
+    this.interactionDao = interactionDao;
   }
 
   // Removed 'static'
@@ -113,6 +118,28 @@ public class Service {
 
   public boolean deleteBlog(int id) {
     return blogDao.deleteBlog(id);
+  }
+
+  public void addComment(Comment comment) {
+    interactionDao.addComment(comment);
+  }
+
+  public void addRating(Rating rating) {
+    if (!interactionDao.hasUserRatedBlog(rating.getBlogId(), rating.getUserEmail())) {
+      interactionDao.addRating(rating);
+    }
+  }
+
+  public ArrayList<Comment> getCommentsByBlogId(int blogId) {
+    return interactionDao.getCommentsByBlogId(blogId);
+  }
+
+  public Double getAverageRating(int blogId) {
+    return interactionDao.getAverageRating(blogId);
+  }
+
+  public boolean hasUserRatedBlog(int blogId, String userEmail) {
+    return interactionDao.hasUserRatedBlog(blogId, userEmail);
   }
 
 }
