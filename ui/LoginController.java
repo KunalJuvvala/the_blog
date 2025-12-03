@@ -15,7 +15,8 @@ import com.ourblogs.ui.view.insertedBlogview;
 public class LoginController {
    FrontController frontController;
    Scanner scanner;
-   public static int EXIT = 7;
+   public static int EXIT = 8;
+   public static int LIST_BLOGGERS = 7;
    public static int EDIT = 5;
    public static int DELETE = 6;
    public static int POST = 1;
@@ -73,6 +74,10 @@ public class LoginController {
                  DeleteBlogController controller1 = new DeleteBlogController(service, scanner);
                  String msg = controller1.begin();
                  insertedBlogview.dispmsg(msg);
+               }
+               else if (choice1 == LIST_BLOGGERS) {
+                 ListBlogController controller = new ListBlogController(service);
+                 controller.begin();
                }
                LoginSecondView.displayBlogMenu(message);
                choice1 = MenuView.getUserChoice(scanner);	
