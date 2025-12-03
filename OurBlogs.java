@@ -4,6 +4,9 @@ package com.ourblogs;
 import static javax.swing.text.html.HTML.Tag.HEAD;
 
 import com.ourblogs.db.InteractionDaoImpl;
+import com.ourblogs.db.NotificationDaoImpl;
+import com.ourblogs.db.TagDaoImpl;
+import com.ourblogs.db.UserActivityDaoImpl;
 import com.ourblogs.service.InteractionDao;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -39,7 +42,13 @@ public class OurBlogs {
       BloggerDao bloggerDao = new BloggerDaoImpl(connection);
       BlogDao blogDao = new BlogDaoImpl(connection);
       InteractionDao interactionDao = new InteractionDaoImpl(connection);
-      Service service = new Service(accountDao, bloggerDao, blogDao, interactionDao);
+
+      UserActivityDaoImpl activityDao = new UserActivityDaoImpl(connection);
+      NotificationDaoImpl notificationDao = new NotificationDaoImpl(connection);
+      TagDaoImpl tagDao = new TagDaoImpl(connection);
+
+      Service service = new Service(accountDao, bloggerDao, blogDao, interactionDao,
+          activityDao, notificationDao, tagDao);
       FrontController controller = new FrontController(service, scanner);
       controller.begin();
     } catch (ClassNotFoundException e) {

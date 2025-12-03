@@ -1,6 +1,10 @@
 package com.ourblogs.service;
 
+import com.ourblogs.db.NotificationDaoImpl;
+import com.ourblogs.db.TagDaoImpl;
+import com.ourblogs.db.UserActivityDaoImpl;
 import com.ourblogs.entity.Comment;
+import com.ourblogs.entity.Notifications;
 import com.ourblogs.entity.Rating;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -19,13 +23,21 @@ public class Service {
   private final BloggerDao bloggerDao;
   private final BlogDao blogDao;
   private final InteractionDao interactionDao;
+  private final UserActivityDaoImpl activityDao;
+  private final NotificationDaoImpl notificationDao;
+  private final TagDaoImpl tagDao;
 
   // Constructor uses instance fields
-  public Service(AccountDao accountDao, BloggerDao bloggerDao, BlogDao blogDao, InteractionDao interactionDao) {
+  public Service(AccountDao accountDao, BloggerDao bloggerDao, BlogDao blogDao, InteractionDao interactionDao,
+                 UserActivityDaoImpl activityDao, NotificationDaoImpl notificationDao,
+                 TagDaoImpl tagDao) {
     this.accountDao = accountDao;
     this.bloggerDao = bloggerDao;
     this.blogDao = blogDao;
     this.interactionDao = interactionDao;
+    this.activityDao = activityDao;
+    this.notificationDao = notificationDao;
+    this.tagDao = tagDao;
   }
 
   // Removed 'static'
@@ -120,9 +132,6 @@ public class Service {
     return blogDao.deleteBlog(id);
   }
 
-  public void addComment(Comment comment) {
-    interactionDao.addComment(comment);
-  }
 
   public void addRating(Rating rating) {
     if (!interactionDao.hasUserRatedBlog(rating.getBlogId(), rating.getUserEmail())) {
@@ -140,6 +149,29 @@ public class Service {
 
   public boolean hasUserRatedBlog(int blogId, String userEmail) {
     return interactionDao.hasUserRatedBlog(blogId, userEmail);
+  }
+
+  public void addComment(Comment c) {
+    interactionDao.addComment(c);
+
+    // Auto-Log Activity
+    activityDao.logActivity(c.getCommenterEmail(), "COMMENT", "Blog ID: " + c.getBlogId());
+
+    // Auto-Notify the Blog Owner (You need to find who owns the blog first to do this accurately)
+    // For now, simple logging is sufficient
+  }
+
+  public ArrayList<Notifications> getNotifications(String email) {
+    // This calls the DAO method we created earlier
+    return notificationDao.getUnreadNotifications(email);
+  }
+
+  // 4. NEW METHOD FOR TAGS
+  public void addTagToBlog(int blogId, String tagName, String email) {
+    int tagId = tagDao.getOrCreateTagId(tagName);
+    if(tagId != -1) {
+      tagDao.addTagToBlog(blogId, tagId, email);
+    }
   }
 
 }
