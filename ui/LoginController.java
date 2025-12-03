@@ -15,7 +15,8 @@ import com.ourblogs.ui.view.insertedBlogview;
 public class LoginController {
    FrontController frontController;
    Scanner scanner;
-   public static int EXIT = 8;
+   public static int EXIT = 9;
+  public static int NOTIFICATIONS = 8;
    public static int LIST_BLOGGERS = 7;
    public static int EDIT = 5;
    public static int DELETE = 6;
@@ -78,6 +79,10 @@ public class LoginController {
                else if (choice1 == LIST_BLOGGERS) {
                  ListBlogController controller = new ListBlogController(service);
                  controller.begin();
+               }
+               else if (choice1 == NOTIFICATIONS) {
+                 NotificationController nc = new NotificationController(service, scanner, login.getEmail());
+                 nc.begin();
                }
                LoginSecondView.displayBlogMenu(message);
                choice1 = MenuView.getUserChoice(scanner);	

@@ -17,7 +17,8 @@ public class LoginSecondView {
     System.out.println("5 Edit Blogs");
     System.out.println("6 Delete Blogs");
     System.out.println("7 List All Bloggers");
-    System.out.println("8 Exit");
+    System.out.println("8 Notifications");
+    System.out.println("9 Exit");
   }
 
   public static int getUserChoice(Scanner scanner) {
