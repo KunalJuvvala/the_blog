@@ -1,3 +1,4 @@
+/*
 package com.ourblogs.ui;
 
 import java.util.Scanner;
@@ -61,4 +62,4 @@ public class RegisterController {
       }
     }
   }
-}
+}*/

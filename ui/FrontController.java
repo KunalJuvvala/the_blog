@@ -1,3 +1,4 @@
+/*
 package com.ourblogs.ui;
 import java.sql.SQLException;
 import java.util.Scanner;
@@ -46,3 +47,4 @@ public class FrontController {
       this.loggedInAccount = login2; 
    }
 }
+*/

@@ -1,3 +1,4 @@
+/*
 package com.ourblogs.ui.view;
 
 import java.util.Scanner;
@@ -12,7 +13,8 @@ public class LoginSecondView {
     System.out.println("4 Read Blogs");
     System.out.println("5 Edit Blogs");
     System.out.println("6 Delete Blogs");
-    System.out.println("7 Exit");
+    System.out.println("7 List Bloggers");
+    System.out.println("8 Exit");
   }
 
   public static int getUserChoice(Scanner scanner) {
@@ -22,5 +24,4 @@ public class LoginSecondView {
       return -1;
     }
   }
-}
-
+}*/

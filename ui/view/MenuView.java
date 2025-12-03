@@ -1,3 +1,4 @@
+/*
 package com.ourblogs.ui.view;
 import java.util.Scanner;
 
@@ -16,3 +17,4 @@ public class MenuView {
 		return choice;
 	}
 }
+*/

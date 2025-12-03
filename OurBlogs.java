@@ -1,3 +1,4 @@
+/*
 package com.ourblogs;
 
 import static javax.swing.text.html.HTML.Tag.HEAD;
@@ -48,4 +49,4 @@ public class OurBlogs {
       connection = null;
     }
   }
-}
+}*/

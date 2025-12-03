@@ -1,3 +1,4 @@
+/*
 package com.ourblogs.ui.view;
 import java.util.Scanner;
 import com.ourblogs.entity.BloggerDTO;
@@ -13,11 +14,12 @@ public class LoginView {
 		account.setEmail(scanner.nextLine());
 		System.out.print("\nPlease enter your password, then press Enter: ");
 		account.setPassword(scanner.nextLine());
-		
-		
+
+
 		return account;
 	}
 
 }
-	
-	
+
+
+*/

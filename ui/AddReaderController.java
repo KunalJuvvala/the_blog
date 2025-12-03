@@ -1,3 +1,4 @@
+/*
 package com.ourblogs.ui;
 
 import java.sql.SQLException;
@@ -72,4 +73,4 @@ public class AddReaderController {
 
     return "Readers updated successfully.\n";
   }
-}
+}*/

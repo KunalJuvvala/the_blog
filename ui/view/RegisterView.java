@@ -1,3 +1,4 @@
+/*
 package com.ourblogs.ui.view;
 import java.util.Scanner;
 
@@ -26,3 +27,4 @@ public class RegisterView {
       }
    }
 }
+*/

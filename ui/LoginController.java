@@ -1,3 +1,4 @@
+/*
 package com.ourblogs.ui;
 
 import com.ourblogs.ui.view.DeleteBlogController;
@@ -89,3 +90,4 @@ public class LoginController {
       }
    }
 }
+*/

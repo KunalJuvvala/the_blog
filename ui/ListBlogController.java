@@ -1,3 +1,4 @@
+/*
 package com.ourblogs.ui;
 
 import com.ourblogs.entity.Blogger;
@@ -30,4 +31,4 @@ public class ListBlogController {
       e.printStackTrace();
     }
   }
-}
+}*/

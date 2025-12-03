@@ -1,3 +1,4 @@
+/*
 package com.ourblogs.ui;
 
 import com.ourblogs.entity.Account;
@@ -50,3 +51,4 @@ public class EditBlogController {
   }
 
 }
+*/

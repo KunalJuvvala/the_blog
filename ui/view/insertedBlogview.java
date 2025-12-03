@@ -1,3 +1,4 @@
+/*
 package com.ourblogs.ui.view;
 
 import java.util.ArrayList;
@@ -30,3 +31,4 @@ public class insertedBlogview {
       System.out.println(message);
    }
 }
+*/

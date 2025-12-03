@@ -1,3 +1,4 @@
+/*
 package com.ourblogs.ui.view;
 
 import com.ourblogs.service.Service;
@@ -32,3 +33,4 @@ public class DeleteBlogController {
   }
 
 }
+*/

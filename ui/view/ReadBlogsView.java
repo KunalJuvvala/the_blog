@@ -1,3 +1,4 @@
+/*
 package com.ourblogs.ui.view;
 
 import java.util.ArrayList;
@@ -39,4 +40,4 @@ public class ReadBlogsView {
     }
     System.out.println();
   }
-}
+}*/

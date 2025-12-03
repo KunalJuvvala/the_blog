@@ -1,3 +1,4 @@
+/*
 package com.ourblogs.ui;
 
 import java.sql.SQLException;
@@ -118,4 +119,4 @@ public class ReadBlogController {
       System.out.println("Invalid input.");
     }
   }
-}
+}*/

@@ -1,3 +1,4 @@
+/*
 package com.ourblogs.ui;
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -23,12 +24,15 @@ public class ViewBlogsController {
    }
 
    // FIXED FROM LAST ASSIGNMENT
-   /* View Controller is now passing the list of blogs,
+   */
+/* View Controller is now passing the list of blogs,
     * instead of a concatenated string to InsertedBlogView
-    */
+    *//*
+
    public String begin() {
      ArrayList<Blog> allblogs = this.service.viewBlogsbyEmail(login.getEmail()); // Using instance call
      String message = "All Blogs from " + login.getEmail();
      return insertedBlogview.InstertedBlogView(message, allblogs);
    }
 }
+*/
