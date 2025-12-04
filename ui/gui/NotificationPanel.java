@@ -20,7 +20,7 @@ public class NotificationPanel extends JPanel {
     this.service = service;
     this.account = account;
     initializeUI();
-    loadNotifications();
+    loadNotifications(true);
   }
 
   private void initializeUI() {
@@ -28,7 +28,7 @@ public class NotificationPanel extends JPanel {
     setBackground(Color.WHITE);
     setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
 
-    // Top panel with title and unread count
+    // --- TOP PANEL ---
     JPanel topPanel = new JPanel(new BorderLayout());
     topPanel.setBackground(Color.WHITE);
 
@@ -47,13 +47,14 @@ public class NotificationPanel extends JPanel {
     JButton refreshButton = new JButton("Refresh");
     refreshButton.setFont(new Font("Arial", Font.PLAIN, 14));
     refreshButton.setForeground(Color.BLACK);
-    refreshButton.addActionListener(e -> loadNotifications());
+    // On manual refresh, we definitely want to see the popup if there are new items
+    refreshButton.addActionListener(e -> loadNotifications(true));
     rightPanel.add(refreshButton);
 
     topPanel.add(rightPanel, BorderLayout.EAST);
     add(topPanel, BorderLayout.NORTH);
 
-    // Table for notifications
+    // --- CENTER PANEL (Table) ---
     String[] columnNames = {"ID", "Type", "Message", "Date", "Status"};
     tableModel = new DefaultTableModel(columnNames, 0) {
       @Override
@@ -65,6 +66,8 @@ public class NotificationPanel extends JPanel {
     notificationTable = new JTable(tableModel);
     notificationTable.setFont(new Font("Arial", Font.PLAIN, 14));
     notificationTable.setRowHeight(30);
+
+    // Adjust column widths
     notificationTable.getColumnModel().getColumn(0).setPreferredWidth(50);
     notificationTable.getColumnModel().getColumn(1).setPreferredWidth(120);
     notificationTable.getColumnModel().getColumn(2).setPreferredWidth(400);
@@ -74,7 +77,7 @@ public class NotificationPanel extends JPanel {
     JScrollPane scrollPane = new JScrollPane(notificationTable);
     add(scrollPane, BorderLayout.CENTER);
 
-    // Button panel
+    // --- BOTTOM PANEL (Buttons) ---
     JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 20, 10));
     buttonPanel.setBackground(Color.WHITE);
 
@@ -99,28 +102,42 @@ public class NotificationPanel extends JPanel {
     add(buttonPanel, BorderLayout.SOUTH);
   }
 
-  private void loadNotifications() {
+  /**
+   * Merged method to load data AND show popup
+   * @param showPopup - if true, shows a dialog box for unread messages
+   */
+  private void loadNotifications(boolean showPopup) {
     tableModel.setRowCount(0);
 
-    // Change this line to get ALL notifications, not just unread
     ArrayList<Notifications> notifications = service.getAllNotifications(account.getEmail());
 
     int unreadCount = 0;
-    for (Notifications notif : notifications) {
-      Object[] row = {
-          notif.getNotificationId(),
-          notif.getNotificationType(),
-          notif.getNotificationText(),
-          notif.getNotificationDate(),
-          notif.isRead() ? "Read" : "Unread"
-      };
-      tableModel.addRow(row);
-      if (!notif.isRead()) {
-        unreadCount++;
+    if (notifications != null) {
+      for (Notifications notif : notifications) {
+        Object[] row = {
+            notif.getNotificationId(),
+            notif.getNotificationType(),
+            notif.getNotificationText(),
+            notif.getNotificationDate(),
+            notif.isRead() ? "Read" : "Unread"
+        };
+        tableModel.addRow(row);
+        if (!notif.isRead()) {
+          unreadCount++;
+        }
       }
     }
 
+    // Update the red text label
     unreadCountLabel.setText("Unread: " + unreadCount);
+
+    // Trigger the Popup Alert if requested and count > 0
+    if (showPopup && unreadCount > 0) {
+      JOptionPane.showMessageDialog(this,
+          "You have " + unreadCount + " new notifications!",
+          "New Alerts",
+          JOptionPane.INFORMATION_MESSAGE);
+    }
   }
 
   private void markSelectedAsRead() {
@@ -140,12 +157,12 @@ public class NotificationPanel extends JPanel {
       return;
     }
 
-    // Call service method to mark as read
     service.markNotificationAsRead(notificationId);
-
     JOptionPane.showMessageDialog(this, "Notification marked as read", "Success",
         JOptionPane.INFORMATION_MESSAGE);
-    loadNotifications();
+
+    // Reload without showing the popup again (to avoid annoyance)
+    loadNotifications(false);
   }
 
   private void markAllAsRead() {
@@ -154,12 +171,10 @@ public class NotificationPanel extends JPanel {
         JOptionPane.YES_NO_OPTION);
 
     if (confirm == JOptionPane.YES_OPTION) {
-      // Call service method to mark all as read
       service.markAllNotificationsAsRead(account.getEmail());
-
       JOptionPane.showMessageDialog(this, "All notifications marked as read", "Success",
           JOptionPane.INFORMATION_MESSAGE);
-      loadNotifications();
+      loadNotifications(false);
     }
   }
 }
