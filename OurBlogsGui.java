@@ -30,7 +30,7 @@ public class OurBlogsGui {
         // Database credentials
         String url = "jdbc:mysql://localhost:3306/ourblogs_db";
         String username = "root";
-        String password = "kirtan10";
+        String password = "manager";
 
         // Establish connection
         Connection connection = DriverManager.getConnection(url, username, password);
