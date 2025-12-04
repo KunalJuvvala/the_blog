@@ -99,7 +99,8 @@ public class InteractionDaoImpl implements InteractionDao {
 
   @Override
   public Double getAverageRating(int blogId) {
-    //String sql = "SELECT AVG(rating_value) as avg_rating FROM rating WHERE blog_id = ?";
+
+    // String sql = "SELECT AVG(rating_value) as avg_rating FROM rating WHERE blog_id = ?";
 
     // NEW WAY (Calling your Stored Function):
     String sql = "SELECT CalculateBlogRating(?) as avg_rating";
