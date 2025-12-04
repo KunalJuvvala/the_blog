@@ -20,6 +20,10 @@ public class DashboardPanel extends JPanel {
   private static final String ADD_READERS = "addReaders";
   private static final String EDIT_BLOG = "editBlog";
   private static final String DELETE_BLOG = "deleteBlog";
+  private static final String INTERACTIONS = "interactions";
+  private static final String NOTIFICATIONS = "notifications";
+  private static final String TAG_MANAGEMENT = "tagManagement";
+  private static final String USER_ACTIVITY = "userActivity";
 
   public DashboardPanel(MainFrame mainFrame, Service service, Account account) {
     this.mainFrame = mainFrame;
@@ -52,6 +56,10 @@ public class DashboardPanel extends JPanel {
     contentPanel.add(new AddReadersPanel(service, account), ADD_READERS);
     contentPanel.add(new EditBlogPanel(service, account), EDIT_BLOG);
     contentPanel.add(new DeleteBlogPanel(service, account), DELETE_BLOG);
+    contentPanel.add(new InteractionPanel(service, account), INTERACTIONS);
+    contentPanel.add(new NotificationPanel(service, account), NOTIFICATIONS);
+    contentPanel.add(new TagManagementPanel(service, account), TAG_MANAGEMENT);
+    contentPanel.add(new UserActivityPanel(service, account), USER_ACTIVITY);
 
     add(contentPanel, BorderLayout.CENTER);
 
@@ -106,6 +114,10 @@ public class DashboardPanel extends JPanel {
     addMenuButton(sidebarPanel, "Add Readers", ADD_READERS);
     addMenuButton(sidebarPanel, "Edit Blog", EDIT_BLOG);
     addMenuButton(sidebarPanel, "Delete Blog", DELETE_BLOG);
+    addMenuButton(sidebarPanel, "Comments & Ratings", INTERACTIONS);
+    addMenuButton(sidebarPanel, "Notifications", NOTIFICATIONS);
+    addMenuButton(sidebarPanel, "Tag Management", TAG_MANAGEMENT);
+    addMenuButton(sidebarPanel, "My Activity", USER_ACTIVITY);
 
     sidebarPanel.add(Box.createVerticalGlue());
 

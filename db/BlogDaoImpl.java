@@ -61,11 +61,25 @@ public class BlogDaoImpl implements BlogDao {
         int generatedId = rs.getInt(1);
         blog.setBlogId(generatedId);
         fl = blog;
+
+        // Log activity automatically
+        logBlogCreation(blog.getBloggerEmail(), generatedId, blog.getBlogSubject());
       }
     } catch (SQLException e) {
       System.out.println(e);
     }
     return fl;
+  }
+
+  private void logBlogCreation(String email, int blogId, String subject) {
+    String sql = "INSERT INTO User_Activity (user_email, activity_type, related_entity) VALUES (?, 'BLOG_CREATED', ?)";
+    try (PreparedStatement ps = connection.prepareStatement(sql)) {
+      ps.setString(1, email);
+      ps.setString(2, "Created blog: " + subject);
+      ps.executeUpdate();
+    } catch (SQLException e) {
+      System.out.println("Error logging blog creation: " + e.getMessage());
+    }
   }
 
   @Override

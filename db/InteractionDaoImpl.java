@@ -16,6 +16,8 @@ public class InteractionDaoImpl implements InteractionDao {
     this.connection = connection;
   }
 
+  // In InteractionDaoImpl.java, update addComment and addRating:
+
   @Override
   public void addComment(Comment comment) {
     String sql = "INSERT INTO comment (blog_id, commenter_email, comment_text) VALUES (?,?,?)";
@@ -24,6 +26,9 @@ public class InteractionDaoImpl implements InteractionDao {
       ps.setString(2, comment.getCommenterEmail());
       ps.setString(3, comment.getCommentText());
       ps.executeUpdate();
+
+      // Log activity
+      logCommentActivity(comment.getCommenterEmail(), comment.getBlogId());
     } catch (SQLException e) {
       System.out.println(e);
     }
@@ -37,8 +42,35 @@ public class InteractionDaoImpl implements InteractionDao {
       ps.setString(2, rating.getUserEmail());
       ps.setInt(3, rating.getRatingValue());
       ps.executeUpdate();
+
+      // Log activity
+      logRatingActivity(rating.getUserEmail(), rating.getBlogId(), rating.getRatingValue());
     } catch (SQLException e) {
       System.out.println(e);
+    }
+  }
+
+  private void logCommentActivity(String email, int blogId) {
+    String sql =
+        "INSERT INTO User_Activity (user_email, activity_type, related_entity) VALUES (?, 'COMMENT', ?)";
+    try (PreparedStatement ps = connection.prepareStatement(sql)) {
+      ps.setString(1, email);
+      ps.setString(2, "Commented on blog ID: " + blogId);
+      ps.executeUpdate();
+    } catch (SQLException e) {
+      System.out.println("Error logging comment activity: " + e.getMessage());
+    }
+  }
+
+  private void logRatingActivity(String email, int blogId, int stars) {
+    String sql =
+        "INSERT INTO User_Activity (user_email, activity_type, related_entity) VALUES (?, 'RATING', ?)";
+    try (PreparedStatement ps = connection.prepareStatement(sql)) {
+      ps.setString(1, email);
+      ps.setString(2, "Rated blog ID: " + blogId + " with " + stars + " stars");
+      ps.executeUpdate();
+    } catch (SQLException e) {
+      System.out.println("Error logging rating activity: " + e.getMessage());
     }
   }
 

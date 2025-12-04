@@ -6,6 +6,8 @@ import com.ourblogs.db.UserActivityDaoImpl;
 import com.ourblogs.entity.Comment;
 import com.ourblogs.entity.Notifications;
 import com.ourblogs.entity.Rating;
+import com.ourblogs.entity.Tag;
+import com.ourblogs.entity.UserActivity;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import com.ourblogs.service.InteractionDao;
@@ -28,7 +30,8 @@ public class Service {
   private final TagDaoImpl tagDao;
 
   // Constructor uses instance fields
-  public Service(AccountDao accountDao, BloggerDao bloggerDao, BlogDao blogDao, InteractionDao interactionDao,
+  public Service(AccountDao accountDao, BloggerDao bloggerDao, BlogDao blogDao,
+                 InteractionDao interactionDao,
                  UserActivityDaoImpl activityDao, NotificationDaoImpl notificationDao,
                  TagDaoImpl tagDao) {
     this.accountDao = accountDao;
@@ -169,9 +172,59 @@ public class Service {
   // 4. NEW METHOD FOR TAGS
   public void addTagToBlog(int blogId, String tagName, String email) {
     int tagId = tagDao.getOrCreateTagId(tagName);
-    if(tagId != -1) {
+    if (tagId != -1) {
       tagDao.addTagToBlog(blogId, tagId, email);
     }
+  }
+
+  // Add to Service.java
+
+  public ArrayList<Tag> getTagsForBlog(int blogId) {
+    return tagDao.getTagsForBlog(blogId);
+  }
+
+  public ArrayList<Tag> getAllTags() {
+    return tagDao.getAllTags();
+  }
+
+  public void removeTagFromBlog(int blogId, int tagId) {
+    tagDao.removeTagFromBlog(blogId, tagId);
+  }
+
+  public ArrayList<Integer> getBlogIdsByTag(String tagName) {
+    return tagDao.getBlogIdsByTag(tagName);
+  }
+
+// In Service.java, replace these methods:
+
+  public void markNotificationAsRead(int notificationId) {
+    notificationDao.markAsRead(notificationId);
+  }
+
+  public void markAllNotificationsAsRead(String email) {
+    notificationDao.markAllAsRead(email);
+  }
+
+  public int getUnreadNotificationCount(String email) {
+    return notificationDao.getUnreadCount(email);
+  }
+
+  // Add these methods to Service.java
+  public ArrayList<UserActivity> getUserActivities(String email) {
+    return activityDao.getActivitiesByUser(email);
+  }
+
+  public ArrayList<UserActivity> getUserActivitiesByType(String email, String activityType) {
+    return activityDao.getActivitiesByUserAndType(email, activityType);
+  }
+
+  public ArrayList<UserActivity> getRecentActivities(int limit) {
+    return activityDao.getRecentActivities(limit);
+  }
+
+  // Add this method to Service.java if not already present
+  public ArrayList<Notifications> getAllNotifications(String email) {
+    return notificationDao.getAllNotifications(email);
   }
 
 }

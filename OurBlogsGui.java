@@ -4,6 +4,9 @@ import com.ourblogs.db.AccountDaoImpl;
 import com.ourblogs.db.BlogDaoImpl;
 import com.ourblogs.db.BloggerDaoImpl;
 import com.ourblogs.db.InteractionDaoImpl;
+import com.ourblogs.db.NotificationDaoImpl;
+import com.ourblogs.db.TagDaoImpl;
+import com.ourblogs.db.UserActivityDaoImpl;
 import com.ourblogs.service.Service;
 import com.ourblogs.ui.gui.MainFrame;
 
@@ -37,9 +40,13 @@ public class OurBlogsGui {
         BloggerDaoImpl bloggerDao = new BloggerDaoImpl(connection);
         BlogDaoImpl blogDao = new BlogDaoImpl(connection);
         InteractionDaoImpl interactionDao = new InteractionDaoImpl(connection);
+        UserActivityDaoImpl activityDao = new UserActivityDaoImpl(connection);
+        NotificationDaoImpl notificationDao = new NotificationDaoImpl(connection);
+        TagDaoImpl tagDao = new TagDaoImpl(connection);
 
-        // Initialize Service
-        Service service = new Service(accountDao, bloggerDao, blogDao, interactionDao);
+        // Initialize Service with ALL 7 parameters
+        Service service = new Service(accountDao, bloggerDao, blogDao, interactionDao,
+            activityDao, notificationDao, tagDao);
 
         // Create and show main frame
         MainFrame mainFrame = new MainFrame(service);
